@@ -1,0 +1,44 @@
+version: "3"
+services:
+
+  postgres:
+    image: "postgres:16-alpine"
+    environment:
+      - POSTGRES_PASSWORD=${PGDATABASE}
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "4200:80"
+  
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./api
+    depends_on:
+      - postgres
+    volumes:
+      - /app/node_modules
+      - ./api:/app
+    environment:
+      - PGUSER=${PGUSER}
+      - PGHOST=${PGHOST}
+      - PGDATABASE=${PGDATABASE}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGPORT=${PGPORT}
+      - PORT=${API_PORT}
+      - JWT_KEY=${JWT_KEY}
+
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    depends_on:
+      - api
+    volumes:
+      - /app/node_modules
+      - ./client:/app/
+    restart: always
