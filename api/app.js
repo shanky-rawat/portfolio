@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const db = require('./config/database');
+const db = require("./config/database");
 // const userRoutes = require('./routes/users');
 // const taskRoutes = require('./routes/tasks');
 
 // DB connection test
-// db.authenticate()
-//   .then( () => console.log('DB Connected'))
-//   .catch(err => console.log(err))
+db.authenticate()
+  .then(() => console.log("DB Connected"))
+  .catch((err) => console.log(err));
 
 // Express setup
 const app = express();
@@ -28,10 +28,10 @@ app.use((req, res, next) => {
 });
 
 // PING api
-
 app.get("/ping", (req, res) => {
-  console.log(process.env)
-  res.send("server is up!");
+  setTimeout(() => {
+    res.send("server is up!");
+  }, 2000);
 });
 
 // Express routes
