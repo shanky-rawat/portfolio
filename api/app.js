@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const db = require("./config/database");
 // const userRoutes = require('./routes/users');
 // const taskRoutes = require('./routes/tasks');
+const pingRoutes = require("./src/ping/routes");
 
 // DB connection test
 db.authenticate()
@@ -14,7 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // API Header for CORS
-app.use((req, res, next) => {
+app.use((_, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -27,15 +28,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// PING api
-app.get("/ping", (req, res) => {
-  setTimeout(() => {
-    res.send("server is up!");
-  }, 2000);
-});
-
 // Express routes
 // app.use("/user",userRoutes);
 // app.use("/tasks",taskRoutes);
+app.use("/ping", pingRoutes);
 
 module.exports = app;
