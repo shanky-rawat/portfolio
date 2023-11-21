@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=${PGDATABASE}
     ports:
-      - 5432:5432
+      - "${PGPORT}:${PGPORT}"
 
   nginx:
     restart: always
@@ -23,8 +23,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - /app/node_modules
       - ./api:/app
+      - /app/node_modules
     environment:
       - PGUSER=${PGUSER}
       - PGHOST=${PGHOST}
@@ -41,6 +41,6 @@ services:
     depends_on:
       - api
     volumes:
-      - /app/node_modules
       - ./client:/app/
+      - /app/node_modules
     restart: always
