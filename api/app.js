@@ -1,8 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+
+const swaggerDocument = require("./docs/swagger-output.json");
 const db = require("./config/database");
-// const userRoutes = require('./routes/users');
-// const taskRoutes = require('./routes/tasks');
 const pingRoutes = require("./src/ping/routes");
 
 // DB connection test
@@ -29,8 +30,7 @@ app.use((_, res, next) => {
 });
 
 // Express routes
-// app.use("/user",userRoutes);
-// app.use("/tasks",taskRoutes);
 app.use("/ping", pingRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 module.exports = app;
