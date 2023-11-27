@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Portfolio API Documentation",
+    "description": "API Documentation for Portfolio, created with swagger-autogen and openapi 3 specs."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4200/api/"
+    }
+  ],
+  "paths": {
+    "/ping/": {
+      "get": {
+        "tags": [
+          "health check"
+        ],
+        "summary": "API to check connectivity",
+        "description": "Health check API, to check server connectivity.",
+        "responses": {
+          "200": {
+            "description": "server is up.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$msg": "pong"
+                },
+                "example": {
+                  "msg": "pong"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

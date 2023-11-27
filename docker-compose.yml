@@ -1,12 +1,11 @@
 version: "3"
 services:
-
   postgres:
     image: "postgres:16-alpine"
     environment:
       - POSTGRES_PASSWORD=${PGDATABASE}
     ports:
-      - 5432:5432
+      - "${PGPORT}:${PGPORT}"
 
   nginx:
     restart: always
@@ -15,7 +14,7 @@ services:
       context: ./nginx
     ports:
       - "4200:80"
-  
+
   api:
     build:
       dockerfile: Dockerfile
@@ -23,8 +22,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - /app/node_modules
       - ./api:/app
+      - /app/node_modules
     environment:
       - PGUSER=${PGUSER}
       - PGHOST=${PGHOST}
@@ -33,6 +32,7 @@ services:
       - PGPORT=${PGPORT}
       - PORT=${API_PORT}
       - JWT_KEY=${JWT_KEY}
+      - APIPORT=${API_PORT}
 
   client:
     build:
@@ -41,6 +41,6 @@ services:
     depends_on:
       - api
     volumes:
-      - /app/node_modules
       - ./client:/app/
+      - /app/node_modules
     restart: always
